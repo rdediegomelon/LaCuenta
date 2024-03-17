@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -18,66 +20,36 @@ import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import es.vallecilloweb.lacuenta.model.CuentaModel
 import es.vallecilloweb.lacuenta.ui.theme.LaCuentaTheme
-import java.time.LocalDateTime
+import es.vallecilloweb.lacuenta.viewmodel.CuentaViewModel
 
 class MainActivity : ComponentActivity() {
 
-    //Temporal - Crear lista de cuentas
-    val cuentas:MutableList<CuentaModel> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //Temporal - Para llenar la lista de cuentas
-        for (i in 1..9) {
-            cuentas.add(CuentaModel("Cuenta $i"))
-        }
-
         setContent {
             LaCuentaTheme {
-                /*// A surface container using the 'background' color from the theme
-                Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    Greeting("Android")
-                }*/
-                Draw(cuentas)
+                Draw(CuentaViewModel())
             }
         }
     }
 }
 
-//FUNCIONES DE DISEÑO
-
-/*@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    TopAppBar(title = { Text("Hola Mundo") })
-    Text(
-            text = "Hello $name!",
-            modifier = modifier
-    )
-}*/
-
-/*@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun GreetingPreview() {
-    HolaMundoTheme {
-        Greeting("Android")
-    }
-}*/
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Draw(cuentas:MutableList<CuentaModel>){
+fun Draw(viewModel: CuentaViewModel){
     Scaffold(
         topBar = {
             TopAppBar(
@@ -94,22 +66,26 @@ fun Draw(cuentas:MutableList<CuentaModel>){
             addButton()
         },
 
-        content = { padding -> List(padding,cuentas)
+        content = { padding -> List(padding,viewModel)
 
         }
     )
 }
 
 @Composable
-fun List(padding: PaddingValues, cuentas:MutableList<CuentaModel>){
-    Column(modifier= Modifier
+fun List(padding: PaddingValues, viewModel: CuentaViewModel){
+
+    val cuentas: MutableList<CuentaModel> by viewModel.cuentas.observeAsState(initial=mutableListOf())
+
+    LazyColumn(modifier= Modifier
         .padding(padding)
         .fillMaxWidth()) {
-        for (cuenta in cuentas){
-            ListElement(title = cuenta.name, content = cuenta.dateCreated.toString())
-        }
+            items(cuentas) {
+                cuenta -> ListElement(title = cuenta.name, content = cuenta.dateCreated.toString() )
+            }
     }
 }
+
 
 @Composable
 fun ListElement(title:String, content:String){
@@ -133,7 +109,7 @@ fun addButton(){
     }
 }
 
-@Preview
+/*@Preview
 @Composable
 fun Preview(){
 
@@ -150,7 +126,7 @@ fun Preview(){
     LaCuentaTheme {
         Draw(cuentasp)
     }
-}
+}*/
 
 //FUNCIONES DE EVENTOS
 private fun onClickListItem(title:String) {

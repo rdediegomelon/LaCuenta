@@ -4,7 +4,13 @@ class CuentaProvider {
 
     companion object {
 
-        var cuentas:List<CuentaModel> = emptyList();
+        var cuentas:MutableList<CuentaModel> = mutableListOf()
+
+        fun load() {
+            for (i in 1..16) {
+                cuentas.add(CuentaModel("Cuenta $i"))
+            }
+        }
 
     }
 }
