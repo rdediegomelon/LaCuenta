@@ -1,0 +1,40 @@
+package es.vallecilloweb.lacuenta.ui.viewmodel
+
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.lifecycle.ViewModel
+import es.vallecilloweb.lacuenta.data.CuentaModel
+import es.vallecilloweb.lacuenta.data.CuentaRepository
+import es.vallecilloweb.lacuenta.domain.AddCuentaUseCase
+import es.vallecilloweb.lacuenta.domain.GetAllCuentasUseCase
+
+class CuentaViewModel:ViewModel() {
+
+    private var _cuentas:SnapshotStateList<CuentaModel> = mutableStateListOf<CuentaModel>()
+    var cuentas: List<CuentaModel> = this._cuentas
+
+    private val getAllCuentasUseCase=GetAllCuentasUseCase()
+    private val addCuentasUseCase=AddCuentaUseCase()
+
+    init {
+        load()
+    }
+
+    private fun load(){
+        val allcuentas:List<CuentaModel> = getAllCuentasUseCase.getAllCuentas()
+        _cuentas.clear()
+        _cuentas.addAll(allcuentas)
+
+        /*val it=allcuentas.iterator()
+
+        while (it.hasNext()) {
+            _cuentas.add(it.next())
+        }*/
+    }
+
+    public fun onClickAddCuentaButton (){
+        addCuentasUseCase.addCuenta("Cuenta ${_cuentas.size+1}")
+        load()
+    }
+
+}

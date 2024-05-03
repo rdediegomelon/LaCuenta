@@ -1,16 +1,13 @@
-package es.vallecilloweb.lacuenta.model
+package es.vallecilloweb.lacuenta.data
 
 class CuentaProvider {
-
     companion object {
-
         var cuentas:List<CuentaModel> = listOf()
 
-        fun load() {
+        init {
             for (i in 1..5) {
-                cuentas=cuentas + (CuentaModel("Cuenta $i"))
+                cuentas = cuentas + (CuentaModel("Cuenta $i"))
             }
         }
-
     }
 }

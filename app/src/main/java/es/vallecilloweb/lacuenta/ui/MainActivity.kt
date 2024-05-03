@@ -1,4 +1,4 @@
-package es.vallecilloweb.lacuenta
+package es.vallecilloweb.lacuenta.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -22,16 +22,16 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.*
-import androidx.compose.runtime.livedata.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import es.vallecilloweb.lacuenta.model.CuentaModel
+import es.vallecilloweb.lacuenta.R
+import es.vallecilloweb.lacuenta.data.CuentaModel
 import es.vallecilloweb.lacuenta.ui.theme.LaCuentaTheme
-import es.vallecilloweb.lacuenta.viewmodel.CuentaViewModel
+import es.vallecilloweb.lacuenta.ui.viewmodel.CuentaViewModel
 
 class MainActivity : ComponentActivity() {
 
@@ -84,21 +84,22 @@ fun List(padding: PaddingValues, viewModel: CuentaViewModel){
         .padding(padding)
         .fillMaxWidth()) {
             items(cuentas) {
-                cuenta -> ListElement(title = cuenta.name, content = cuenta.dateCreated.toString() )
+                cuenta -> ListElement(title = cuenta.name, created = cuenta.dateCreated.toString(),peoplecount = cuenta.people.size )
             }
     }
 }
 
 
 @Composable
-fun ListElement(title:String, content:String){
+fun ListElement(title:String, created:String,peoplecount:Int){
     Column(
         Modifier
             .border(1.dp, Color.Black)
             .fillMaxWidth()
             .clickable { onClickListItem(title) }) {
         Text(title, fontWeight = FontWeight.Bold, fontSize = 20.sp)
-        Text (content)
+        Text (created)
+        Text("${peoplecount} personas")
     }
 }
 
