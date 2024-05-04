@@ -7,6 +7,6 @@ class CuentaRepository() {
     }
 
     fun addCuenta(cuenta:CuentaModel){
-        CuentaProvider.cuentas = CuentaProvider.cuentas + cuenta
+        CuentaProvider.cuentas.add(cuenta)
     }
 }
