@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import es.vallecilloweb.lacuenta.R
 import es.vallecilloweb.lacuenta.data.CuentaModel
+import es.vallecilloweb.lacuenta.ui.navigation.AppScreens
 import es.vallecilloweb.lacuenta.ui.viewmodel.CuentaViewModel
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -37,27 +38,21 @@ fun ListCuentasScreen(navController:NavHostController, viewModel: CuentaViewMode
     Scaffold(
         topBar = {
             TopAppBar(
-                //colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Yellow),
                 title = { Text(stringResource(id = R.string.app_name)) },
-                /*navigationIcon = {
-                    IconButton(onClick = { }) {
-                        Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "Atrás" )
-                    }
-                }*/
             )
         },
         floatingActionButton = {
             ListCuentasAddButton(){viewModel.onClickAddCuentaButton()}
         },
 
-        content = { padding -> ListCuentas(padding,viewModel)
+        content = { padding -> ListCuentas(padding,navController,viewModel)
 
         }
     )
 }
 
 @Composable
-fun ListCuentas(padding: PaddingValues, viewModel: CuentaViewModel){
+fun ListCuentas(padding: PaddingValues, navController:NavHostController,viewModel: CuentaViewModel){
 
     val cuentas: List<CuentaModel> = viewModel.cuentas
 
@@ -65,27 +60,27 @@ fun ListCuentas(padding: PaddingValues, viewModel: CuentaViewModel){
         .padding(padding)
         .fillMaxWidth()) {
         items(cuentas) {
-                cuenta -> ListCuentasElement(title = cuenta.name, created = cuenta.dateCreated!!,peoplecount = cuenta.people.size,total=cuenta.calculateTotal() )
+                cuenta -> ListCuentasElement(navController,cuenta )
         }
     }
 }
 
 
 @Composable
-fun ListCuentasElement(title:String, created: LocalDateTime, peoplecount:Int, total:Float){
+fun ListCuentasElement(navController:NavHostController,cuenta:CuentaModel){
     val dateFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
     Column(
         Modifier
             .border(1.dp, Color.Black)
             .fillMaxWidth()
-            .clickable { onClickListCuentasItem(title) }) {
-        Text(title, fontWeight = FontWeight.Bold, fontSize = 20.sp)
-        Text (dateFormat.format(created))
-        if (peoplecount!=1)
-            Text("${peoplecount} personas")
+            .clickable { onClickListCuentasItem(navController,cuenta) }) {
+        Text(cuenta.name, fontWeight = FontWeight.Bold, fontSize = 20.sp)
+        Text (dateFormat.format(cuenta.dateCreated))
+        if (cuenta.people.size!=1)
+            Text("${cuenta.people.size} personas")
         else
-            Text("${peoplecount} persona")
-        Text("GASTADO: ${total} €")
+            Text("${cuenta.people.size} persona")
+        Text("GASTADO: ${cuenta.calculateTotal()} €")
     }
 }
 
@@ -100,6 +95,6 @@ fun ListCuentasAddButton(onClickAddCuentaButton: () -> Unit) {
 }
 
 //FUNCIONES DE EVENTOS
-private fun onClickListCuentasItem(title:String) {
-    println("Pulsado $title")
+private fun onClickListCuentasItem(navController:NavHostController,cuenta:CuentaModel) {
+    navController.navigate(AppScreens.CuentaDetailScreen.route)
 }
