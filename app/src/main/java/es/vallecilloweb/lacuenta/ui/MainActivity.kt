@@ -32,6 +32,9 @@ import es.vallecilloweb.lacuenta.R
 import es.vallecilloweb.lacuenta.data.CuentaModel
 import es.vallecilloweb.lacuenta.ui.theme.LaCuentaTheme
 import es.vallecilloweb.lacuenta.ui.viewmodel.CuentaViewModel
+import java.text.DateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 class MainActivity : ComponentActivity() {
 
@@ -84,22 +87,27 @@ fun List(padding: PaddingValues, viewModel: CuentaViewModel){
         .padding(padding)
         .fillMaxWidth()) {
             items(cuentas) {
-                cuenta -> ListElement(title = cuenta.name, created = cuenta.dateCreated.toString(),peoplecount = cuenta.people.size )
+                cuenta -> ListElement(title = cuenta.name, created = cuenta.dateCreated!!,peoplecount = cuenta.people.size,total=cuenta.calculateTotal() )
             }
     }
 }
 
 
 @Composable
-fun ListElement(title:String, created:String,peoplecount:Int){
+fun ListElement(title:String, created:LocalDateTime,peoplecount:Int,total:Float){
+    val dateFormat:DateTimeFormatter= DateTimeFormatter.ofPattern("dd/MM/yyyy")
     Column(
         Modifier
             .border(1.dp, Color.Black)
             .fillMaxWidth()
             .clickable { onClickListItem(title) }) {
         Text(title, fontWeight = FontWeight.Bold, fontSize = 20.sp)
-        Text (created)
-        Text("${peoplecount} personas")
+        Text (dateFormat.format(created))
+        if (peoplecount!=1)
+            Text("${peoplecount} personas")
+        else
+            Text("${peoplecount} persona")
+        Text("GASTADO: ${total} €")
     }
 }
 
