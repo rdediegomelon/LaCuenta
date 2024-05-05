@@ -39,6 +39,9 @@ import es.vallecilloweb.lacuenta.data.CuentaModel
 import es.vallecilloweb.lacuenta.ui.viewmodel.CuentaViewModel
 import java.time.format.DateTimeFormatter
 
+//TODO Agrupar consumiciones con el mismo nombre
+//TODO Actualizar lista de consumiciones automáticamente
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CuentaDetailScreen(navController: NavHostController,viewModel: CuentaViewModel){
@@ -74,39 +77,44 @@ fun CuentaDetail(padding: PaddingValues,viewModel: CuentaViewModel){
             Text("La cuenta está vacía, debes añadir nuevas consumiciones")
         }
         else {
-            //Por cada persona, se pinta la lista con el detalle de su cuenta
-            for (entry in viewModel.cuentaDetail.consumiciones.entries){
-                //TODO este for se debe eliminar al usa el LazyColumn
-                CuentalDetailListElements(padding,entry,viewModel.cuentaDetail.calculateTotal(entry.key))
-            }
+            //Se pinta en una lista el contenido de la cuenta (persona y detalle)
+            CuentalDetailListElements(padding,viewModel.cuentaDetail)
         }
     }
 }
 
 @Composable
-fun CuentalDetailListElements(padding: PaddingValues,entry:MutableMap.MutableEntry<String,MutableList<ConsumicionModel>>,total:Float){
-    //Este column pinta el detalle de la cuenta de una persona, pinta el nombre de la persona y su total y la lista de consumiciones
-    //TODO esto debe ser un LazyColumn
-    Column(modifier= Modifier
+fun CuentalDetailListElements(padding: PaddingValues,cuenta:CuentaModel){
+    //Este LazyColumn pinta el detalle de la cuenta persona a persona, pinta el nombre de la persona y su total y la lista de consumiciones
+    LazyColumn(modifier= Modifier
         .border(1.dp, Color.Black)
         .fillMaxWidth()) {
-        Row() {
-            Icon(Icons.Default.AccountCircle, contentDescription = "AccountCircle")
-            Text(fontSize = 18.sp, fontWeight = FontWeight.Bold, text = "${entry.key}")
+        //Convierte el Map en una lista de valores nombre,lista de consumiciones, y por cada elemento llama a la función composable
+        items(cuenta.consumiciones.toList()) {
+            element -> CuentaDetailListElements(element,cuenta.calculateTotal(element.first))
         }
-        Row() {
-            Icon(Icons.Default.Edit, contentDescription = "Edit")
-            Text(fontSize = 16.sp, fontWeight = FontWeight.Bold, text = "TOTAL: ${total} €")
-        }
-        //Este LazyColumn pinta la lista de consumiciones de cada persona
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            //A items se le pasa una lista, y dentro ejecuta la acción por cada elemento de la lista. Ese elemento se le pasa a la función composable para que lo muestre
-            items(entry.value) { consumicion ->
-                CuentaDetailElement(consumicion)
-            }
+
+    }
+}
+
+@Composable
+fun CuentaDetailListElements(list:Pair<String,MutableList<ConsumicionModel>>,total:Float){
+
+    Row() {
+        Icon(Icons.Default.AccountCircle, contentDescription = "AccountCircle")
+        Text(fontSize = 18.sp, fontWeight = FontWeight.Bold, text = "${list.first}")
+    }
+    Row() {
+        Icon(Icons.Default.Edit, contentDescription = "Edit")
+        Text(fontSize = 16.sp, fontWeight = FontWeight.Bold, text = "TOTAL: ${total} €")
+    }
+    //Este Column pinta la lista de consumiciones de cada persona
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        for (consumicion in list.second){
+            CuentaDetailElement(consumicion = consumicion)
         }
     }
 }
