@@ -11,8 +11,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -87,8 +90,14 @@ fun CuentalDetailListElements(padding: PaddingValues,entry:MutableMap.MutableEnt
     Column(modifier= Modifier
         .border(1.dp, Color.Black)
         .fillMaxWidth()) {
-        Text(fontSize = 18.sp, fontWeight = FontWeight.Bold, text = "${entry.key}")
-        Text(fontSize = 16.sp, fontWeight = FontWeight.Bold,text = "TOTAL: ${total} €")
+        Row() {
+            Icon(Icons.Default.AccountCircle, contentDescription = "AccountCircle")
+            Text(fontSize = 18.sp, fontWeight = FontWeight.Bold, text = "${entry.key}")
+        }
+        Row() {
+            Icon(Icons.Default.Edit, contentDescription = "Edit")
+            Text(fontSize = 16.sp, fontWeight = FontWeight.Bold, text = "TOTAL: ${total} €")
+        }
         //Este LazyColumn pinta la lista de consumiciones de cada persona
         LazyColumn(
             modifier = Modifier
@@ -104,7 +113,10 @@ fun CuentalDetailListElements(padding: PaddingValues,entry:MutableMap.MutableEnt
 
 @Composable
 fun CuentaDetailElement(consumicion:ConsumicionModel){
-    Text("${consumicion.quantity} x ${consumicion.name} (${consumicion.cost} €/u) -> ${consumicion.cost * consumicion.quantity} €")
+    Row () {
+        Icon(Icons.Default.Add, contentDescription = "Add")
+        Text("${consumicion.quantity} x ${consumicion.name} (${consumicion.cost} €/u) -> ${consumicion.cost * consumicion.quantity} €")
+    }
 }
 
 @Composable
