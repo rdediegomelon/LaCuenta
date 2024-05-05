@@ -3,6 +3,7 @@ package es.vallecilloweb.lacuenta.ui.viewmodel
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
+import es.vallecilloweb.lacuenta.data.ConsumicionModel
 import es.vallecilloweb.lacuenta.data.CuentaModel
 import es.vallecilloweb.lacuenta.data.CuentaRepository
 import es.vallecilloweb.lacuenta.domain.AddCuentaUseCase
@@ -33,4 +34,8 @@ class CuentaViewModel:ViewModel() {
         load()
     }
 
+    public fun onClickAddConsumicionButton(){
+        var consumicion: ConsumicionModel = ConsumicionModel("Vermú", cost = 3f, quantity = 1)
+        cuentaDetail.addConsumicion("Boton",consumicion)
+    }
 }

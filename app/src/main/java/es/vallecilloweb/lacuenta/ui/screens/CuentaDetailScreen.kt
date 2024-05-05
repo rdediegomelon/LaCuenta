@@ -9,10 +9,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -45,6 +49,9 @@ fun CuentaDetailScreen(navController: NavHostController,viewModel: CuentaViewMod
                         modifier = Modifier.clickable { navController.popBackStack() })},
                 title = { Text(stringResource(id = R.string.app_name)) },
             )
+        },
+        floatingActionButton = {
+            CuentaDetailAddButton(){viewModel.onClickAddConsumicionButton()}
         },
         content = { padding -> CuentaDetail(padding,viewModel)}
     )
@@ -98,4 +105,14 @@ fun CuentalDetailListElements(padding: PaddingValues,entry:MutableMap.MutableEnt
 @Composable
 fun CuentaDetailElement(consumicion:ConsumicionModel){
     Text("${consumicion.quantity} x ${consumicion.name} (${consumicion.cost} €/u) -> ${consumicion.cost * consumicion.quantity} €")
+}
+
+@Composable
+fun CuentaDetailAddButton(onClickAddCuentaDetailButton: () -> Unit) {
+    LargeFloatingActionButton(
+        onClick = { onClickAddCuentaDetailButton () },
+        shape = CircleShape,
+    ) {
+        Icon(Icons.Filled.ShoppingCart, "Large floating action button")
+    }
 }

@@ -17,7 +17,8 @@ class CuentaProvider {
                 cuenta.addConsumicion("Rodrigo",consumicion)
                 consumicion=ConsumicionModel("Cerveza", cost = 3.3f, quantity = 2)
                 cuenta.addConsumicion("Antonia",consumicion)
-
+                consumicion=ConsumicionModel("Vino tinto", cost = 3.8f, quantity = 4)
+                cuenta.addConsumicion("Miguel",consumicion)
                 cuentas.add(cuenta)
             }
         }
