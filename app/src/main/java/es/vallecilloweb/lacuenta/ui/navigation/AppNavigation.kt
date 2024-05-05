@@ -17,7 +17,7 @@ fun AppNavigation(cuentaViewModel: CuentaViewModel){
             ListCuentasScreen(viewModel = cuentaViewModel , navController = navController)
         }
         composable(AppScreens.CuentaDetailScreen.route){
-            CuentaDetailScreen(navController = navController)
+            CuentaDetailScreen(navController = navController,cuentaViewModel)
         }
     }
 }

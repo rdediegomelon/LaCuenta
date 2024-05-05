@@ -24,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import es.vallecilloweb.lacuenta.R
 import es.vallecilloweb.lacuenta.data.CuentaModel
@@ -60,27 +61,27 @@ fun ListCuentas(padding: PaddingValues, navController:NavHostController,viewMode
         .padding(padding)
         .fillMaxWidth()) {
         items(cuentas) {
-                cuenta -> ListCuentasElement(navController,cuenta )
+                cuenta -> ListCuentasElement(navController,viewModel,cuenta )
         }
     }
 }
 
 
 @Composable
-fun ListCuentasElement(navController:NavHostController,cuenta:CuentaModel){
+fun ListCuentasElement(navController:NavHostController,viewModel: CuentaViewModel,cuenta:CuentaModel){
     val dateFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
     Column(
         Modifier
             .border(1.dp, Color.Black)
             .fillMaxWidth()
-            .clickable { onClickListCuentasItem(navController,cuenta) }) {
+            .clickable { onClickListCuentasItem(navController, viewModel, cuenta) }) {
         Text(cuenta.name, fontWeight = FontWeight.Bold, fontSize = 20.sp)
         Text (dateFormat.format(cuenta.dateCreated))
-        if (cuenta.people.size!=1)
-            Text("${cuenta.people.size} personas")
+        if (cuenta.consumiciones.size!=1)
+            Text("${cuenta.consumiciones.size} personas")
         else
-            Text("${cuenta.people.size} persona")
-        Text("GASTADO: ${cuenta.calculateTotal()} €")
+            Text("${cuenta.consumiciones.size} persona")
+        Text("TOTAL: ${cuenta.calculateTotal()} €")
     }
 }
 
@@ -95,6 +96,7 @@ fun ListCuentasAddButton(onClickAddCuentaButton: () -> Unit) {
 }
 
 //FUNCIONES DE EVENTOS
-private fun onClickListCuentasItem(navController:NavHostController,cuenta:CuentaModel) {
+private fun onClickListCuentasItem(navController:NavHostController,cuentaviewmodel:CuentaViewModel,cuenta:CuentaModel) {
+    cuentaviewmodel.cuentaDetail=cuenta
     navController.navigate(AppScreens.CuentaDetailScreen.route)
 }

@@ -16,6 +16,8 @@ class CuentaViewModel:ViewModel() {
     private val getAllCuentasUseCase=GetAllCuentasUseCase()
     private val addCuentasUseCase=AddCuentaUseCase()
 
+    lateinit var cuentaDetail:CuentaModel
+
     init {
         load()
     }
@@ -24,12 +26,6 @@ class CuentaViewModel:ViewModel() {
         val allcuentas:List<CuentaModel> = getAllCuentasUseCase.getAllCuentas()
         _cuentas.clear()
         _cuentas.addAll(allcuentas)
-
-        /*val it=allcuentas.iterator()
-
-        while (it.hasNext()) {
-            _cuentas.add(it.next())
-        }*/
     }
 
     public fun onClickAddCuentaButton (){

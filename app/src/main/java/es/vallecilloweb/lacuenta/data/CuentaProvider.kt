@@ -10,15 +10,13 @@ class CuentaProvider {
                 //Creo una nueva cuenta con un número consecutivo
                 var cuenta:CuentaModel=CuentaModel("Cuenta $i")
 
-                //Añado dos personas a la cuenta
-                cuenta.addPerson("Rodrigo")
-                cuenta.addPerson("Antonia")
-
                 //Añado consumiciones a la cuenta
-                var consumicion:ConsumicionModel = ConsumicionModel("Coca-Cola", person = "Rodrigo", cost = 2.90f, quantity = 2)
-                cuenta.addConsumicion(consumicion)
-                consumicion=ConsumicionModel("Cerveza", person = "Antonia", cost = 3.3f, quantity = 1)
-                cuenta.addConsumicion(consumicion)
+                var consumicion:ConsumicionModel = ConsumicionModel("Coca-Cola", cost = 2.90f, quantity = 2)
+                cuenta.addConsumicion("Rodrigo",consumicion)
+                consumicion=ConsumicionModel("Agua", cost = 1.8f, quantity = 2)
+                cuenta.addConsumicion("Rodrigo",consumicion)
+                consumicion=ConsumicionModel("Cerveza", cost = 3.3f, quantity = 2)
+                cuenta.addConsumicion("Antonia",consumicion)
 
                 cuentas.add(cuenta)
             }
