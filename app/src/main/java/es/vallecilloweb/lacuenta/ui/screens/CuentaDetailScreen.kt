@@ -24,6 +24,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -66,19 +67,20 @@ fun CuentaDetailScreen(navController: NavHostController,viewModel: CuentaViewMod
 @Composable
 fun CuentaDetail(padding: PaddingValues,viewModel: CuentaViewModel){
     val dateFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+    val cuentaDetail:CuentaModel= viewModel.cuentaDetail.observeAsState().value!!
     //Este column pinta todos los detalles de una cuenta, contiene el nombre de la cuenta, la fecha, y la lista de personas y el detalle de cada persona dentro
     Column( modifier= Modifier
         .padding(padding)
         .fillMaxWidth()) {
-        Text(viewModel.cuentaDetail.name, fontWeight = FontWeight.Bold, fontSize = 20.sp)
-        Text (dateFormat.format(viewModel.cuentaDetail.dateCreated))
-        Text("TOTAL: ${viewModel.cuentaDetail.calculateTotal()} €")
-        if (viewModel.cuentaDetail.consumiciones.isEmpty()){
+        Text(cuentaDetail.name, fontWeight = FontWeight.Bold, fontSize = 20.sp)
+        Text (dateFormat.format(cuentaDetail.dateCreated))
+        Text("TOTAL: ${cuentaDetail.calculateTotal()} €")
+        if (cuentaDetail.consumiciones.isEmpty()){
             Text("La cuenta está vacía, debes añadir nuevas consumiciones")
         }
         else {
             //Se pinta en una lista el contenido de la cuenta (persona y detalle)
-            CuentalDetailListElements(padding,viewModel.cuentaDetail)
+            CuentalDetailListElements(padding,viewModel.cuentaDetail.value!!)
         }
     }
 }

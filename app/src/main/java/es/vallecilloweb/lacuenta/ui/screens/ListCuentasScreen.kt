@@ -97,6 +97,5 @@ fun ListCuentasAddButton(onClickAddCuentaButton: () -> Unit) {
 
 //FUNCIONES DE EVENTOS
 private fun onClickListCuentasItem(navController:NavHostController,cuentaviewmodel:CuentaViewModel,cuenta:CuentaModel) {
-    cuentaviewmodel.cuentaDetail=cuenta
-    navController.navigate(AppScreens.CuentaDetailScreen.route)
+    cuentaviewmodel.onClickCuentaDetail(navController,cuenta)
 }
