@@ -10,6 +10,7 @@ import androidx.navigation.NavHostController
 import es.vallecilloweb.lacuenta.data.ConsumicionModel
 import es.vallecilloweb.lacuenta.data.CuentaModel
 import es.vallecilloweb.lacuenta.data.CuentaRepository
+import es.vallecilloweb.lacuenta.domain.AddConsumicionUseCase
 import es.vallecilloweb.lacuenta.domain.AddCuentaUseCase
 import es.vallecilloweb.lacuenta.domain.GetAllCuentasUseCase
 import es.vallecilloweb.lacuenta.ui.navigation.AppScreens
@@ -24,8 +25,7 @@ class CuentaViewModel:ViewModel() {
 
     private val getAllCuentasUseCase=GetAllCuentasUseCase()
     private val addCuentasUseCase=AddCuentaUseCase()
-
-
+    private val addConsumicionUseCase=AddConsumicionUseCase()
 
     init {
         load()
@@ -37,18 +37,23 @@ class CuentaViewModel:ViewModel() {
         _cuentas.addAll(allcuentas)
     }
 
-    public fun onClickAddCuentaButton (){
-        addCuentasUseCase.addCuenta("Cuenta ${_cuentas.size+1}")
+    public fun onClickAddCuentaButton (navController: NavHostController){
+        navController.navigate(AppScreens.AddCuentaScreen.route)
+    }
+
+    public fun onClickNewCuentaButton(navController: NavHostController,name:String){
+        addCuentasUseCase.addCuenta(name)
         load()
+        navController.navigate(AppScreens.ListCuentasScreen.route)
     }
 
     public fun onClickAddConsumicionButton(){
-        var consumicion: ConsumicionModel = ConsumicionModel("Vermú", cost = 3f, quantity = 1)
-        _cuentaDetail.value?.addConsumicion("Boton",consumicion)
+        addConsumicionUseCase.addConsumicion(_cuentaDetail.value!!,"Botón","Vermú", cost = 3f, quantity = 1)
     }
 
     public fun onClickCuentaDetail(navController: NavHostController, cuenta:CuentaModel){
         _cuentaDetail.value=cuenta
         navController.navigate(AppScreens.CuentaDetailScreen.route)
     }
+
 }

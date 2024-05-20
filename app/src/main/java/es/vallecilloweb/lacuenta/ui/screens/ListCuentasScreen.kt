@@ -43,7 +43,7 @@ fun ListCuentasScreen(navController:NavHostController, viewModel: CuentaViewMode
             )
         },
         floatingActionButton = {
-            ListCuentasAddButton(){viewModel.onClickAddCuentaButton()}
+            ListCuentasAddButton(navController){viewModel.onClickAddCuentaButton(navController)}
         },
 
         content = { padding -> ListCuentas(padding,navController,viewModel)
@@ -74,7 +74,7 @@ fun ListCuentasElement(navController:NavHostController,viewModel: CuentaViewMode
         Modifier
             .border(1.dp, Color.Black)
             .fillMaxWidth()
-            .clickable { onClickListCuentasItem(navController, viewModel, cuenta) }) {
+            .clickable { viewModel.onClickCuentaDetail(navController,cuenta) }) {
         Text(cuenta.name, fontWeight = FontWeight.Bold, fontSize = 20.sp)
         Text (dateFormat.format(cuenta.dateCreated))
         if (cuenta.consumiciones.size!=1)
@@ -86,16 +86,11 @@ fun ListCuentasElement(navController:NavHostController,viewModel: CuentaViewMode
 }
 
 @Composable
-fun ListCuentasAddButton(onClickAddCuentaButton: () -> Unit) {
+fun ListCuentasAddButton(navController:NavHostController, onClickAddCuentaButton: (navController:NavHostController) -> Unit) {
     LargeFloatingActionButton(
-        onClick = { onClickAddCuentaButton () },
+        onClick = { onClickAddCuentaButton (navController) },
         shape = CircleShape,
     ) {
         Icon(Icons.Filled.Add, "Large floating action button")
     }
-}
-
-//FUNCIONES DE EVENTOS
-private fun onClickListCuentasItem(navController:NavHostController,cuentaviewmodel:CuentaViewModel,cuenta:CuentaModel) {
-    cuentaviewmodel.onClickCuentaDetail(navController,cuenta)
 }
