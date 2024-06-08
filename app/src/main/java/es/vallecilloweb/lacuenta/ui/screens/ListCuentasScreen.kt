@@ -24,13 +24,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import es.vallecilloweb.lacuenta.R
-import es.vallecilloweb.lacuenta.data.CuentaModel
-import es.vallecilloweb.lacuenta.ui.navigation.AppScreens
+import es.vallecilloweb.lacuenta.data.entities.CuentaModel
 import es.vallecilloweb.lacuenta.ui.viewmodel.CuentaViewModel
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -79,7 +76,7 @@ fun ListCuentas(padding: PaddingValues, navController:NavHostController,viewMode
 
 
 @Composable
-fun ListCuentasElement(navController:NavHostController,viewModel: CuentaViewModel,cuenta:CuentaModel){
+fun ListCuentasElement(navController:NavHostController,viewModel: CuentaViewModel,cuenta: CuentaModel){
     val dateFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
     Column(
         Modifier

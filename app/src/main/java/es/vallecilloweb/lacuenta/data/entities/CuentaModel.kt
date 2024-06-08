@@ -1,13 +1,19 @@
-package es.vallecilloweb.lacuenta.data
+package es.vallecilloweb.lacuenta.data.entities
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import es.vallecilloweb.lacuenta.data.entities.ConsumicionModel
 import java.time.LocalDateTime
 
-data class CuentaModel(var name:String) {
+@Entity
+data class CuentaModel(@ColumnInfo(name="name") var name:String) {
 
+    @PrimaryKey(autoGenerate = true) val uid:Int = 0
     val dateCreated: LocalDateTime? = LocalDateTime.now()
     val consumiciones:MutableMap<String,MutableList<ConsumicionModel>> = mutableMapOf()
 
-    fun addConsumicion(person:String,consumicion:ConsumicionModel){
+    fun addConsumicion(person:String,consumicion: ConsumicionModel){
         //Si la persona ya existe añado la consumicion a su lista, si no creo la lista de nuevo
         if (consumiciones.containsKey(person)){
             consumiciones.get(person)?.add(consumicion)

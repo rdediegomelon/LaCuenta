@@ -1,26 +1,13 @@
 package es.vallecilloweb.lacuenta.data
 
-class CuentaProvider {
-    companion object {
-        var cuentas:MutableList<CuentaModel> = mutableListOf()
+import android.app.Application
+import android.content.Context
+import androidx.room.Room
+import es.vallecilloweb.lacuenta.data.entities.CuentaModel
 
-        init {
-           /* //TEMPORAL, para llenar la lista de cuentas
-            for (i in 1..5) {
-                //Creo una nueva cuenta con un número consecutivo
-                var cuenta:CuentaModel=CuentaModel("Cuenta $i")
+class CuentaProvider (application: Application) {
 
-                //Añado consumiciones a la cuenta
-                var consumicion:ConsumicionModel = ConsumicionModel("Coca-Cola", cost = 2.90f, quantity = 2)
-                cuenta.addConsumicion("Rodrigo",consumicion)
-                consumicion=ConsumicionModel("Agua", cost = 1.8f, quantity = 2)
-                cuenta.addConsumicion("Rodrigo",consumicion)
-                consumicion=ConsumicionModel("Cerveza", cost = 3.3f, quantity = 2)
-                cuenta.addConsumicion("Antonia",consumicion)
-                consumicion=ConsumicionModel("Vino tinto", cost = 3.8f, quantity = 4)
-                cuenta.addConsumicion("Miguel",consumicion)
-                cuentas.add(cuenta)
-            }*/
-        }
-    }
+    val db:CuentaDatabase= CuentaDatabase.getDatabase(application)
+    var cuentas: MutableList<CuentaModel> = db.cuentaDao().getAll()
+
 }

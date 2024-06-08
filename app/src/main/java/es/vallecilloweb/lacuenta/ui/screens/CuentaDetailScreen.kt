@@ -23,10 +23,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -35,8 +32,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import es.vallecilloweb.lacuenta.R
-import es.vallecilloweb.lacuenta.data.ConsumicionModel
-import es.vallecilloweb.lacuenta.data.CuentaModel
+import es.vallecilloweb.lacuenta.data.entities.ConsumicionModel
+import es.vallecilloweb.lacuenta.data.entities.CuentaModel
 import es.vallecilloweb.lacuenta.ui.viewmodel.CuentaViewModel
 import java.time.format.DateTimeFormatter
 
@@ -66,7 +63,7 @@ fun CuentaDetailScreen(navController: NavHostController,viewModel: CuentaViewMod
 @Composable
 fun CuentaDetail(padding: PaddingValues,viewModel: CuentaViewModel){
     val dateFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-    val cuentaDetail:CuentaModel= viewModel.cuentaDetail.observeAsState().value!!
+    val cuentaDetail: CuentaModel = viewModel.cuentaDetail.observeAsState().value!!
     //Este column pinta todos los detalles de una cuenta, contiene el nombre de la cuenta, la fecha, y la lista de personas y el detalle de cada persona dentro
     Column( modifier= Modifier
         .padding(padding)
@@ -85,7 +82,7 @@ fun CuentaDetail(padding: PaddingValues,viewModel: CuentaViewModel){
 }
 
 @Composable
-fun CuentalDetailListElements(padding: PaddingValues,cuenta:CuentaModel){
+fun CuentalDetailListElements(padding: PaddingValues,cuenta: CuentaModel){
     //Este LazyColumn pinta el detalle de la cuenta persona a persona, pinta el nombre de la persona y su total y la lista de consumiciones
     LazyColumn(modifier= Modifier
         .border(1.dp, Color.Black)
@@ -99,7 +96,7 @@ fun CuentalDetailListElements(padding: PaddingValues,cuenta:CuentaModel){
 }
 
 @Composable
-fun CuentaDetailListElements(list:Pair<String,MutableList<ConsumicionModel>>,total:Float){
+fun CuentaDetailListElements(list:Pair<String,MutableList<ConsumicionModel>>, total:Float){
 
     Row() {
         Icon(Icons.Default.AccountCircle, contentDescription = "AccountCircle")
@@ -121,7 +118,7 @@ fun CuentaDetailListElements(list:Pair<String,MutableList<ConsumicionModel>>,tot
 }
 
 @Composable
-fun CuentaDetailElement(consumicion:ConsumicionModel){
+fun CuentaDetailElement(consumicion: ConsumicionModel){
     Row () {
         Icon(Icons.Default.Add, contentDescription = "Add")
         Text("${consumicion.quantity} x ${consumicion.name} (${consumicion.cost} €/u) -> ${consumicion.cost * consumicion.quantity} €")

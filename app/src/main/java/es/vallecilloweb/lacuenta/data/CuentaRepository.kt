@@ -1,12 +1,17 @@
 package es.vallecilloweb.lacuenta.data
 
-class CuentaRepository() {
+import android.app.Application
+import es.vallecilloweb.lacuenta.data.entities.CuentaModel
+
+class CuentaRepository(application:Application) {
+
+    val provider:CuentaProvider= CuentaProvider(application)
 
     fun getAllCuentas():List<CuentaModel>{
-        return CuentaProvider.cuentas
+        return provider.cuentas
     }
 
-    fun addCuenta(cuenta:CuentaModel){
-        CuentaProvider.cuentas.add(cuenta)
+    fun addCuenta(cuenta: CuentaModel){
+        provider.cuentas.add(cuenta)
     }
 }
