@@ -57,7 +57,7 @@ fun CuentaDetailScreen(navController: NavHostController,viewModel: CuentaViewMod
             )
         },
         floatingActionButton = {
-            CuentaDetailAddButton(){viewModel.onClickAddConsumicionButton()}
+            CuentaDetailAddButton(){viewModel.onClickAddConsumicionButton(navController)}
         },
         content = { padding -> CuentaDetail(padding,viewModel)}
     )

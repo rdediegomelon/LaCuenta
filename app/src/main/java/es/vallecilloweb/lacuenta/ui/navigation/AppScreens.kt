@@ -5,4 +5,5 @@ sealed class AppScreens(val route:String) {
     object ListCuentasScreen: AppScreens("listcuentascreen")
     object CuentaDetailScreen: AppScreens("cuentadetailscreen")
     object AddCuentaScreen: AppScreens("addcuentascreen")
+    object AddConsumicionScreen: AppScreens("addconsumicioncreen")
 }

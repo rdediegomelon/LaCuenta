@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import es.vallecilloweb.lacuenta.ui.screens.AddConsumicionScreen
 import es.vallecilloweb.lacuenta.ui.screens.ListCuentasScreen
 import es.vallecilloweb.lacuenta.ui.viewmodel.CuentaViewModel
 import es.vallecilloweb.lacuenta.ui.screens.CuentaDetailScreen
@@ -22,6 +23,9 @@ fun AppNavigation(cuentaViewModel: CuentaViewModel){
         }
         composable(AppScreens.AddCuentaScreen.route){
             AddCuentaScreen(navController = navController, cuentaViewModel)
+        }
+        composable(AppScreens.AddConsumicionScreen.route){
+            AddConsumicionScreen(navController = navController, cuentaViewModel)
         }
     }
 }

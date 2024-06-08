@@ -5,7 +5,7 @@ class CuentaProvider {
         var cuentas:MutableList<CuentaModel> = mutableListOf()
 
         init {
-            //TEMPORAL, para llenar la lista de cuentas
+           /* //TEMPORAL, para llenar la lista de cuentas
             for (i in 1..5) {
                 //Creo una nueva cuenta con un número consecutivo
                 var cuenta:CuentaModel=CuentaModel("Cuenta $i")
@@ -20,7 +20,7 @@ class CuentaProvider {
                 consumicion=ConsumicionModel("Vino tinto", cost = 3.8f, quantity = 4)
                 cuenta.addConsumicion("Miguel",consumicion)
                 cuentas.add(cuenta)
-            }
+            }*/
         }
     }
 }

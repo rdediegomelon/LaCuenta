@@ -57,11 +57,22 @@ fun ListCuentas(padding: PaddingValues, navController:NavHostController,viewMode
 
     val cuentas: List<CuentaModel> = viewModel.cuentas
 
-    LazyColumn(modifier= Modifier
-        .padding(padding)
-        .fillMaxWidth()) {
-        items(cuentas) {
-                cuenta -> ListCuentasElement(navController,viewModel,cuenta )
+    if (cuentas.isEmpty()){
+        Column( modifier= Modifier
+            .padding(padding)
+            .fillMaxWidth()) {
+                Text("Crea tu primera cuenta",fontWeight = FontWeight.Bold,fontSize = 20.sp)
+        }
+    }
+    else {
+        LazyColumn(
+            modifier = Modifier
+                .padding(padding)
+                .fillMaxWidth()
+        ) {
+            items(cuentas) { cuenta ->
+                ListCuentasElement(navController, viewModel, cuenta)
+            }
         }
     }
 }
