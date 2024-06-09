@@ -26,7 +26,7 @@ class CuentaViewModel(application: Application): AndroidViewModel(application) {
 
     private val getAllCuentasUseCase=GetAllCuentasUseCase(_repository)
     private val addCuentasUseCase=AddCuentaUseCase(_repository)
-    private val addConsumicionUseCase=AddConsumicionUseCase()
+    private val addConsumicionUseCase=AddConsumicionUseCase(_repository)
 
 
 

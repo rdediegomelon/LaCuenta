@@ -8,9 +8,7 @@ class Converters {
 
     @TypeConverter
     fun fromLocalDateTimeToString(date:LocalDateTime):String {
-
-        val dateFormat: DateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-        return dateFormat.format(date)
+        return date.toString()
     }
 
     @TypeConverter

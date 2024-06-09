@@ -9,7 +9,9 @@ class AddConsumicionUseCase(val repository: CuentaRepository) {
     fun addConsumicion(cuenta: CuentaModel, person:String, name:String, cost:Float, quantity:Int){
         var consumicion: ConsumicionModel = ConsumicionModel(name,cost,quantity)
         consumicion.cuentaId=cuenta.uid
+        consumicion.person=person
         cuenta.addConsumicion(person,consumicion)
+        repository.saveConsumicion(consumicion)
     }
 
 }

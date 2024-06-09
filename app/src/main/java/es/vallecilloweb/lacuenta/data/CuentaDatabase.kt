@@ -7,9 +7,10 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import es.vallecilloweb.lacuenta.data.dao.ConsumicionDao
 import es.vallecilloweb.lacuenta.data.dao.CuentaDao
+import es.vallecilloweb.lacuenta.data.entities.ConsumicionModel
 import es.vallecilloweb.lacuenta.data.entities.CuentaModel
 
-@Database(entities = [CuentaModel::class],version=1)
+@Database(entities = [CuentaModel::class,ConsumicionModel::class],version=2)
 @TypeConverters(Converters::class)
 abstract class CuentaDatabase:RoomDatabase() {
     abstract fun cuentaDao():CuentaDao

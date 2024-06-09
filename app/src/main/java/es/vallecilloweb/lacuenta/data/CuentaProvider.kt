@@ -1,6 +1,7 @@
 package es.vallecilloweb.lacuenta.data
 
 import android.app.Application
+import es.vallecilloweb.lacuenta.data.entities.ConsumicionModel
 import es.vallecilloweb.lacuenta.data.entities.CuentaModel
 
 class CuentaProvider (application: Application) {
@@ -13,9 +14,16 @@ class CuentaProvider (application: Application) {
         return cuentas;
     }
 
-    public fun addCuente(cuenta:CuentaModel){
+    public fun addCuenta(cuenta:CuentaModel){
+        val id=db.cuentaDao().insert(cuenta)
+        cuenta.uid=id.toInt()
         cuentas.add(cuenta)
-        db.cuentaDao().insertAll(cuenta)
     }
+
+    public fun saveConsumicion(cosumicion:ConsumicionModel){
+        db.consumicionDao().insertAll(cosumicion)
+    }
+
+    public fun getConsumicionesInCuenta(cuenta: CuentaModel):MutableList<ConsumicionModel> = db.consumicionDao().getConsumicionesInCuenta(cuenta.uid)
 
 }

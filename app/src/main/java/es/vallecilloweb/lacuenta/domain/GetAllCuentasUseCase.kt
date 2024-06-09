@@ -6,6 +6,6 @@ import es.vallecilloweb.lacuenta.data.CuentaRepository
 
 class GetAllCuentasUseCase(val repository: CuentaRepository) {
 
-    fun getAllCuentas():List<CuentaModel> = repository.getAllCuentas()
+    fun getAllCuentas():List<CuentaModel> = repository.getAllCuentasWithConsumiciones()
 
 }
