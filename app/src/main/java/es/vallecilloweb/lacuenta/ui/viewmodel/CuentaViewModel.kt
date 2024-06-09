@@ -7,6 +7,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavHostController
+import es.vallecilloweb.lacuenta.data.CuentaRepository
 import es.vallecilloweb.lacuenta.data.entities.CuentaModel
 import es.vallecilloweb.lacuenta.domain.AddConsumicionUseCase
 import es.vallecilloweb.lacuenta.domain.AddCuentaUseCase
@@ -21,9 +22,13 @@ class CuentaViewModel(application: Application): AndroidViewModel(application) {
     private var _cuentaDetail = MutableLiveData<CuentaModel>()
     var cuentaDetail:LiveData<CuentaModel> = _cuentaDetail
 
-    private val getAllCuentasUseCase=GetAllCuentasUseCase(application)
-    private val addCuentasUseCase=AddCuentaUseCase(application)
+    private val _repository= CuentaRepository(application)
+
+    private val getAllCuentasUseCase=GetAllCuentasUseCase(_repository)
+    private val addCuentasUseCase=AddCuentaUseCase(_repository)
     private val addConsumicionUseCase=AddConsumicionUseCase()
+
+
 
     init {
         load()

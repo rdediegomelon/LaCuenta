@@ -8,10 +8,10 @@ class CuentaRepository(application:Application) {
     val provider:CuentaProvider= CuentaProvider(application)
 
     fun getAllCuentas():List<CuentaModel>{
-        return provider.cuentas
+        return provider.getAllCuentas()
     }
 
     fun addCuenta(cuenta: CuentaModel){
-        provider.cuentas.add(cuenta)
+        provider.addCuente(cuenta)
     }
 }

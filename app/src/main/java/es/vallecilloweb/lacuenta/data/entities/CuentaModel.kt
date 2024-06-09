@@ -2,6 +2,7 @@ package es.vallecilloweb.lacuenta.data.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import es.vallecilloweb.lacuenta.data.entities.ConsumicionModel
 import java.time.LocalDateTime
@@ -9,9 +10,10 @@ import java.time.LocalDateTime
 @Entity
 data class CuentaModel(@ColumnInfo(name="name") var name:String) {
 
-    @PrimaryKey(autoGenerate = true) val uid:Int = 0
-    val dateCreated: LocalDateTime? = LocalDateTime.now()
-    val consumiciones:MutableMap<String,MutableList<ConsumicionModel>> = mutableMapOf()
+    @PrimaryKey(autoGenerate = true) var uid:Int = 0
+
+    @ColumnInfo(name="created") var dateCreated: LocalDateTime? = LocalDateTime.now()
+    @Ignore var consumiciones:MutableMap<String,MutableList<ConsumicionModel>> = mutableMapOf()
 
     fun addConsumicion(person:String,consumicion: ConsumicionModel){
         //Si la persona ya existe añado la consumicion a su lista, si no creo la lista de nuevo
